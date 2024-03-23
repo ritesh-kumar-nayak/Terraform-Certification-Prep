@@ -22,7 +22,7 @@ variable "ami_linux" {
 }
 
 variable "instance_type" {
-  default = "t2.micro"    # This value will be overreiden on CLI
+  default = "t2.micro"    # this default value will be overriden by the count value declared in terraform.tfvars
   type        = string
   description = "this defines type of instance"
 
@@ -36,19 +36,13 @@ variable "instance_count" {
 }
 /* 
 
-NOTE: We can also override variable by using Envoronment variables using below syntax.
-Syntax: export TF_VAR_variable_name=value
+  NOTE: We can also override variable by using terraform.tfvars file which is present in the current directory.
+If terraform observes a file named terraform.tfvars it will auto-load the variables written inside it.
+There is no specific syntax for this kind of declaration. We just need to create a file named terraform.tfvars and
+put the variable name and it's corresponding value as:
 
-Example: export TF_VAR_instance_type=t2.large
-         export TF_VAR_instance_count=6
-Export command from CLI will store the variables in our local machine. You have to export it before terraform plan or terraform apply
+  ec2_instance_type="t2.large"
+  instance_count= 2
 
-We can aslo do : echo $TF_VAR_instance_type , $TF_VAR_instance_count to cross verify from CLI
-
-Now our default instance type and instance count will be overriden with t2.large and 6 respectively.
-
-Once we unset the environment variables it will pick value from this variable.tf
-We can clear the environment variables using:
-  unset TF_VAR_instance_type
-  unset TF_VAR_instance_count
+like wise..
 */

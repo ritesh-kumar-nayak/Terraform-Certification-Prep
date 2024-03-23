@@ -29,22 +29,28 @@ variable "instance_type" {
 }
 
 variable "instance_count" {
-  default     = 2       # this default value will be overriden by the count value declared in terraform.tfvars
+  default     = 2       # This value will be overreiden on CLI
   type        = number
   description = "this is number of variables"
 
 }
 /* 
 
-NOTE: We can also override variable by using terraform.tfvars file which is present in the current directory.
-If terraform observes a file named terraform.tfvars it will auto-load the variables written inside it.
-There is no specific syntax for this kind of declaration. We just need to create a file named terraform.tfvars and
-put the variable name and it's corresponding value as:
+NOTE: We can also override variable by using Envoronment variables using below syntax.
+Syntax: export TF_VAR_variable_name=value
 
-  ec2_instance_type="t2.large"
-  instance_count= 2
+Example: export TF_VAR_instance_type=t2.large
+         export TF_VAR_instance_count=6
+Export command from CLI will store the variables in our local machine. You have to export it before terraform plan or terraform apply
 
-like wise..
+We can aslo do : echo $TF_VAR_instance_type , $TF_VAR_instance_count to cross verify from CLI
+
+Now our default instance type and instance count will be overriden with t2.large and 6 respectively.
+
+Once we unset the environment variables it will pick value from this variable.tf
+We can clear the environment variables using:
+  unset TF_VAR_instance_type
+  unset TF_VAR_instance_count
 
 
 */
