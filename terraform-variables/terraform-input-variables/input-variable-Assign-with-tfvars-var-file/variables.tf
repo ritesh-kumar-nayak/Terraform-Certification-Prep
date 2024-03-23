@@ -36,13 +36,12 @@ variable "instance_count" {
 }
 /* 
 
-  NOTE: We can also override variable by using terraform.tfvars file which is present in the current directory.
-If terraform observes a file named terraform.tfvars it will auto-load the variables written inside it.
-There is no specific syntax for this kind of declaration. We just need to create a file named terraform.tfvars and
-put the variable name and it's corresponding value as:
+  NOTE: Here we are clasifying variables as per environment name with different file names
+  It increases the readability and managability.
 
-  ec2_instance_type="t2.large"
-  instance_count= 2
+  We have to call these variables file explicitly at the time of terraform plan/apply.
+  Syntax: 
 
-like wise..
+    terraform plan -var-file="dev.tfvars"
+    terraform apply -var-file="dev.tfvars"
 */
