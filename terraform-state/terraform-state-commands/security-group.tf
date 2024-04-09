@@ -57,6 +57,17 @@ resource "aws_security_group" "web-SG" {
       prefix_list_ids  = []
       security_groups  = []
       self             = false
+  },
+  { 
+    description = "allow port 8080"   # this rule is added for testing the terraform -target option
+    from_port = 8080
+    to_port = 8080
+    protocol = "tcp"
+    cidr_blocks = [ "0.0.0.0/0" ]
+    ipv6_cidr_blocks = []
+    prefix_list_ids  = []
+    security_groups  = []
+    self             = false
   }]
 
   egress = [{
