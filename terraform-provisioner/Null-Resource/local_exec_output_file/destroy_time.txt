@@ -1,0 +1,7 @@
+Instance Destroyed at 'date' 
+'Instance Destroyed at $(date)' 
+'Instance Destroyed at $(date)' 
+Instance Destroyed at $(date) 
+Instance Destroyed at $(date) 
+Instance Destroyed at 'date' 
+Instance Destroyed at 'date' 
