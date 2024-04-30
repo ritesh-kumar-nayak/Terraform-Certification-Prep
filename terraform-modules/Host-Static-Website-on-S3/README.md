@@ -1,3 +1,4 @@
+# This is the base which will be bundled into a module going forward.
 ---
 title: Build Terraform Module from Scratch
 description: Create Terraform Modules locally
