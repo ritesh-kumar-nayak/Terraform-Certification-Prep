@@ -1,9 +1,13 @@
 # We need to create 7 resources to host a static website on s3 bucket.
 
+resource "random_id" "bucket_suffix" {
+  byte_length = 4
+}
 # Resource1: AWS S3 Bucket
 resource "aws_s3_bucket" "static_website_bucket" {
-  bucket        = var.bucket_name
+  bucket        = "bucket-${formatdate("YYYY-MM-DD", timestamp())}-${random_id.bucket_suffix.hex}"
   tags          = var.tags
+  depends_on    = [random_id.bucket_suffix]
   force_destroy = true # All objects(including locked objects) should be deleted when the bucket is destroyed without throwing any error
 
 }
@@ -86,7 +90,7 @@ resource "aws_s3_bucket_policy" "bucket_policy" {
               "s3:GetObject"
           ],
           "Resource": [
-              "arn:aws:s3:::${var.bucket_name}/*"
+              "arn:aws:s3:::${aws_s3_bucket.static_website_bucket.bucket}/*"
           ]
       }
   ]

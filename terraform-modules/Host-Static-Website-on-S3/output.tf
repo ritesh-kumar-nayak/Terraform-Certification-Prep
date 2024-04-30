@@ -22,8 +22,8 @@ output "bucket_regional_domain_name" {
 
 }
 output "static_website_url" {
-    description = "website url"
-    value = "http://${aws_s3_bucket.static_website_bucket.bucket}.s3-website-${aws_s3_bucket.static_website_bucket.region}.amazonaws.com"
-    
-  
+  description = "website url"
+  value       = "http://${aws_s3_bucket.static_website_bucket.bucket}.s3-website-${aws_s3_bucket.static_website_bucket.region}.amazonaws.com"
+
+
 }

@@ -1,7 +1,8 @@
-variable "s3_bucket_name" {
-  type        = string
-  description = "Name of the S3 bucket"
-}
+# variable "s3_bucket_name" {
+#   type        = string
+#   default = "bucket-${formatdate("YYYY-MM-DD", timestamp())}-${random_id.bucket_suffix.hex}"
+#   description = "Name of the S3 bucket"
+# }
 
 variable "s3_tags" {
   type    = map(string)
