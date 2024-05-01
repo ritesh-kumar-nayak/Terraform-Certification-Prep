@@ -1,5 +1,6 @@
 terraform {
-  required_version = "~>1.5.0"
+  #required_version = "~>1.5.0" # this is for local version
+  required_version = "~>1.8.2" # This is for execution on terraform cloud
   required_providers {
     aws = {
       source  = "hashicorp/aws"
