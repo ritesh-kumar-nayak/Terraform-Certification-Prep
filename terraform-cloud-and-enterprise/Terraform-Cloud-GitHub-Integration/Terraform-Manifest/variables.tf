@@ -1,5 +1,6 @@
 variable "region" {
-  default     = "us-east-1"
+  #default     = "us-east-1" # This variable is added to terraform cloud variables
+  type        = string
   description = "this is the region"
 
 }
@@ -11,8 +12,8 @@ variable "app_name" {
 
 }
 
-variable "instance_type" {
-  default     = "t2.micro"
+variable "instance_type" { # This variable is added to terraform cloud variables
+  # default     = "t2.micro"
   type        = string
   description = "this is instance type"
 

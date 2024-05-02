@@ -9,17 +9,17 @@ terraform {
   }
   backend "s3" {
 
-    bucket = "terraform-statelocking-bucket"
-    key = "terraform-workspace-test/terraform.tfstate"
-    region = "us-east-1"
+    bucket         = "terraform-statelocking-bucket"
+    key            = "terraform-workspace-test/terraform.tfstate"
+    region         = "us-east-1"
     dynamodb_table = "terraform-dev-state-table"
-    
+
   }
 }
 
 provider "aws" {
-  region  = var.region
-  profile = "default"
+  region = var.region
+  #profile = "default"   profile is commented as we are executing on terraform cloud 
 
 }
 
