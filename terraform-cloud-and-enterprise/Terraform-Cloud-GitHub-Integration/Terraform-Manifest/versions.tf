@@ -19,8 +19,15 @@ terraform {
 
 provider "aws" {
   region = var.region
-  #profile = "default"   profile is commented as we are executing on terraform cloud 
 
 }
 
-/* Here the the terraform.tfstae.d folder will be migrated to S3 bucket with the name "env:/" */
+/* Here the the terraform.tfstae.d folder will be migrated to S3 bucket with the name "env:/" 
+  #profile = "default"   profile is commented as we are executing on terraform cloud 
+
+  The environment variable key has to be in below format and their respective values has to be pasted in value section:
+
+    AWS_ACCESS_KEY_ID 
+    AWS_SECRET_ACCESS_KEY
+
+*/

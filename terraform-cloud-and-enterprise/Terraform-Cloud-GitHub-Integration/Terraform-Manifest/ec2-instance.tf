@@ -4,7 +4,7 @@ resource "aws_instance" "ec2-from-datasource" {
   instance_type = var.instance_type
   key_name      = "instanceBy_terraform"
   # For non-default workspace, it may be useful to spin up smaller instances
-  count                  = terraform.workspace == "default" ? 2 : 1 # It will create 2 instance if we are in Default workspace else for any other workspace it will create 1 instance
+  count                  = 2 #terraform.workspace == "default" ? 2 : 1 # It will create 2 instance if we are in Default workspace else for any other workspace it will create 1 instance
   user_data              = file("apache-install.sh")
   vpc_security_group_ids = [aws_security_group.ssh-SG.id, aws_security_group.web-SG.id]
   tags = {
