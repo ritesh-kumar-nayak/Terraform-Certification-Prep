@@ -1,0 +1,363 @@
+import "strings"
+
+providers = {
+	"aws": {
+		"alias": "",
+		"config": {
+			"region": {
+				"constant_value": "us-east-1",
+			},
+		},
+		"full_name":           "registry.terraform.io/hashicorp/aws",
+		"module_address":      "",
+		"name":                "aws",
+		"provider_config_key": "aws",
+		"version_constraint":  ">= 5.0.0",
+	},
+}
+
+resources = {
+	"aws_instance.ec2-for-state-demo": {
+		"address": "aws_instance.ec2-for-state-demo",
+		"config": {
+			"ami": {
+				"references": [
+					"data.aws_ami.amazon_linux_ami.id",
+					"data.aws_ami.amazon_linux_ami",
+				],
+			},
+			"instance_type": {
+				"references": [
+					"var.instance_type",
+				],
+			},
+			"key_name": {
+				"constant_value": "instanceBy_terraform",
+			},
+			"tags": {
+				"constant_value": {
+					"Name":       "ec2-refreshcommand-demo",
+					"taged":      "Manually",
+					"target_tag": "Target-option-testing",
+				},
+			},
+			"user_data": {
+				"constant_value": null,
+			},
+			"vpc_security_group_ids": {
+				"references": [
+					"aws_security_group.ssh-SG.id",
+					"aws_security_group.ssh-SG",
+					"aws_security_group.web-SG.id",
+					"aws_security_group.web-SG",
+				],
+			},
+		},
+		"count": {
+			"constant_value": 1,
+		},
+		"depends_on":          [],
+		"for_each":            {},
+		"mode":                "managed",
+		"module_address":      "",
+		"name":                "ec2-for-state-demo",
+		"provider_config_key": "aws",
+		"provisioners":        [],
+		"type":                "aws_instance",
+	},
+	"aws_instance.instance_for_target_testing": {
+		"address": "aws_instance.instance_for_target_testing",
+		"config": {
+			"ami": {
+				"references": [
+					"data.aws_ami.amazon_linux_ami.id",
+					"data.aws_ami.amazon_linux_ami",
+				],
+			},
+			"instance_type": {
+				"references": [
+					"var.instance_type",
+				],
+			},
+			"key_name": {
+				"constant_value": "instanceBy_terraform",
+			},
+		},
+		"count":               {},
+		"depends_on":          [],
+		"for_each":            {},
+		"mode":                "managed",
+		"module_address":      "",
+		"name":                "instance_for_target_testing",
+		"provider_config_key": "aws",
+		"provisioners":        [],
+		"type":                "aws_instance",
+	},
+	"aws_security_group.ssh-SG": {
+		"address": "aws_security_group.ssh-SG",
+		"config": {
+			"description": {
+				"constant_value": "This security group will have rules for ssh connectivity",
+			},
+			"egress": {
+				"constant_value": [
+					{
+						"cidr_blocks": [
+							"0.0.0.0/0",
+						],
+						"description":      "allow all ip and ports outbound",
+						"from_port":        0,
+						"ipv6_cidr_blocks": [],
+						"prefix_list_ids":  [],
+						"protocol":         "-1",
+						"security_groups":  [],
+						"self":             false,
+						"to_port":          0,
+					},
+				],
+			},
+			"ingress": {
+				"constant_value": [
+					{
+						"cidr_blocks": [
+							"0.0.0.0/0",
+						],
+						"description":      "Allow port 22",
+						"from_port":        22,
+						"ipv6_cidr_blocks": [],
+						"prefix_list_ids":  [],
+						"protocol":         "tcp",
+						"security_groups":  [],
+						"self":             false,
+						"to_port":          22,
+					},
+				],
+			},
+			"name": {
+				"constant_value": "SSH Sg",
+			},
+		},
+		"count":               {},
+		"depends_on":          [],
+		"for_each":            {},
+		"mode":                "managed",
+		"module_address":      "",
+		"name":                "ssh-SG",
+		"provider_config_key": "aws",
+		"provisioners":        [],
+		"type":                "aws_security_group",
+	},
+	"aws_security_group.web-SG": {
+		"address": "aws_security_group.web-SG",
+		"config": {
+			"description": {
+				"constant_value": "This will enable web traffic",
+			},
+			"egress": {
+				"constant_value": [
+					{
+						"cidr_blocks": [
+							"0.0.0.0/0",
+						],
+						"description":      "allow all ip and ports outbound",
+						"from_port":        0,
+						"ipv6_cidr_blocks": [],
+						"prefix_list_ids":  [],
+						"protocol":         "-1",
+						"security_groups":  [],
+						"self":             false,
+						"to_port":          0,
+					},
+				],
+			},
+			"ingress": {
+				"constant_value": [
+					{
+						"cidr_blocks": [
+							"0.0.0.0/0",
+						],
+						"description":      "allow http",
+						"from_port":        80,
+						"ipv6_cidr_blocks": [],
+						"prefix_list_ids":  [],
+						"protocol":         "tcp",
+						"security_groups":  [],
+						"self":             false,
+						"to_port":          80,
+					},
+					{
+						"cidr_blocks": [
+							"0.0.0.0/0",
+						],
+						"description":      "allow HTTPS",
+						"from_port":        443,
+						"ipv6_cidr_blocks": [],
+						"prefix_list_ids":  [],
+						"protocol":         "tcp",
+						"security_groups":  [],
+						"self":             false,
+						"to_port":          443,
+					},
+					{
+						"cidr_blocks": [
+							"0.0.0.0/0",
+						],
+						"description":      "allow port 8080",
+						"from_port":        8080,
+						"ipv6_cidr_blocks": [],
+						"prefix_list_ids":  [],
+						"protocol":         "tcp",
+						"security_groups":  [],
+						"self":             false,
+						"to_port":          8080,
+					},
+				],
+			},
+			"name": {
+				"constant_value": "WEB sg",
+			},
+		},
+		"count":               {},
+		"depends_on":          [],
+		"for_each":            {},
+		"mode":                "managed",
+		"module_address":      "",
+		"name":                "web-SG",
+		"provider_config_key": "aws",
+		"provisioners":        [],
+		"type":                "aws_security_group",
+	},
+	"data.aws_ami.amazon_linux_ami": {
+		"address": "data.aws_ami.amazon_linux_ami",
+		"config": {
+			"filter": [
+				{
+					"name": {
+						"constant_value": "name",
+					},
+					"values": {
+						"constant_value": [
+							"al2023-ami-*",
+						],
+					},
+				},
+				{
+					"name": {
+						"constant_value": "root-device-type",
+					},
+					"values": {
+						"constant_value": [
+							"ebs",
+						],
+					},
+				},
+				{
+					"name": {
+						"constant_value": "virtualization-type",
+					},
+					"values": {
+						"constant_value": [
+							"hvm",
+						],
+					},
+				},
+				{
+					"name": {
+						"constant_value": "architecture",
+					},
+					"values": {
+						"constant_value": [
+							"x86_64",
+						],
+					},
+				},
+			],
+			"most_recent": {
+				"constant_value": true,
+			},
+			"owners": {
+				"constant_value": [
+					"amazon",
+				],
+			},
+		},
+		"count":               {},
+		"depends_on":          [],
+		"for_each":            {},
+		"mode":                "data",
+		"module_address":      "",
+		"name":                "amazon_linux_ami",
+		"provider_config_key": "aws",
+		"provisioners":        [],
+		"type":                "aws_ami",
+	},
+}
+
+provisioners = {}
+
+variables = {
+	"app_name": {
+		"default":        "web_app",
+		"description":    "this is application name",
+		"module_address": "",
+		"name":           "app_name",
+	},
+	"environment_name": {
+		"default":        "dev",
+		"description":    "Dev Environment",
+		"module_address": "",
+		"name":           "environment_name",
+	},
+	"instance_type": {
+		"default":        "t2.micro",
+		"description":    "this is instance type",
+		"module_address": "",
+		"name":           "instance_type",
+	},
+	"region": {
+		"default":        "us-east-1",
+		"description":    "this is the region",
+		"module_address": "",
+		"name":           "region",
+	},
+}
+
+outputs = {
+	"ec2_public_ip": {
+		"depends_on":     [],
+		"description":    "Public IP of instance",
+		"module_address": "",
+		"name":           "ec2_public_ip",
+		"sensitive":      false,
+		"value": {
+			"references": [
+				"aws_instance.ec2-for-state-demo",
+			],
+		},
+	},
+	"instance_arn": {
+		"depends_on":     [],
+		"description":    "This is EC2 ARN",
+		"module_address": "",
+		"name":           "instance_arn",
+		"sensitive":      false,
+		"value": {
+			"references": [
+				"aws_instance.ec2-for-state-demo[0].arn",
+				"aws_instance.ec2-for-state-demo[0]",
+				"aws_instance.ec2-for-state-demo",
+			],
+		},
+	},
+}
+
+module_calls = {}
+
+strip_index = func(addr) {
+	s = strings.split(addr, ".")
+	for s as i, v {
+		s[i] = strings.split(v, "[")[0]
+	}
+
+	return strings.join(s, ".")
+}

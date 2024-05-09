@@ -1,0 +1,324 @@
+import "strings"
+import "types"
+
+_modules = {
+	"root": {
+		"data": {
+			"aws_ami": {
+				"amazon_linux_ami": {
+					"config": {
+						"filter": [
+							{
+								"name": "name",
+								"values": [
+									"al2023-ami-*",
+								],
+							},
+							{
+								"name": "root-device-type",
+								"values": [
+									"ebs",
+								],
+							},
+							{
+								"name": "virtualization-type",
+								"values": [
+									"hvm",
+								],
+							},
+							{
+								"name": "architecture",
+								"values": [
+									"x86_64",
+								],
+							},
+						],
+						"most_recent": true,
+						"owners": [
+							"amazon",
+						],
+					},
+					"provisioners": null,
+					"references": {
+						"filter": [
+							{
+								"name":   [],
+								"values": [],
+							},
+							{
+								"name":   [],
+								"values": [],
+							},
+							{
+								"name":   [],
+								"values": [],
+							},
+							{
+								"name":   [],
+								"values": [],
+							},
+						],
+						"most_recent": [],
+						"owners":      [],
+					},
+				},
+			},
+		},
+		"modules": {},
+		"outputs": {
+			"ec2_public_ip": {
+				"depends_on":  [],
+				"description": "Public IP of instance",
+				"references": [
+					"aws_instance.ec2-for-state-demo",
+				],
+				"sensitive": false,
+				"value":     undefined,
+			},
+			"instance_arn": {
+				"depends_on":  [],
+				"description": "This is EC2 ARN",
+				"references": [
+					"aws_instance.ec2-for-state-demo[0].arn",
+					"aws_instance.ec2-for-state-demo[0]",
+					"aws_instance.ec2-for-state-demo",
+				],
+				"sensitive": false,
+				"value":     undefined,
+			},
+		},
+		"providers": {
+			"aws": {
+				"alias": {
+					"": {
+						"config": {
+							"region": "us-east-1",
+						},
+						"references": {
+							"region": [],
+						},
+						"version": ">= 5.0.0",
+					},
+				},
+				"config": {
+					"region": "us-east-1",
+				},
+				"references": {
+					"region": [],
+				},
+				"version": ">= 5.0.0",
+			},
+		},
+		"resources": {
+			"aws_instance": {
+				"ec2-for-state-demo": {
+					"config": {
+						"key_name": "instanceBy_terraform",
+						"tags": {
+							"Name":       "ec2-refreshcommand-demo",
+							"taged":      "Manually",
+							"target_tag": "Target-option-testing",
+						},
+						"user_data": null,
+					},
+					"provisioners": null,
+					"references": {
+						"ami": [
+							"data.aws_ami.amazon_linux_ami.id",
+							"data.aws_ami.amazon_linux_ami",
+						],
+						"instance_type": [
+							"var.instance_type",
+						],
+						"key_name":  [],
+						"tags":      [],
+						"user_data": [],
+						"vpc_security_group_ids": [
+							"aws_security_group.ssh-SG.id",
+							"aws_security_group.ssh-SG",
+							"aws_security_group.web-SG.id",
+							"aws_security_group.web-SG",
+						],
+					},
+				},
+				"instance_for_target_testing": {
+					"config": {
+						"key_name": "instanceBy_terraform",
+					},
+					"provisioners": null,
+					"references": {
+						"ami": [
+							"data.aws_ami.amazon_linux_ami.id",
+							"data.aws_ami.amazon_linux_ami",
+						],
+						"instance_type": [
+							"var.instance_type",
+						],
+						"key_name": [],
+					},
+				},
+			},
+			"aws_security_group": {
+				"ssh-SG": {
+					"config": {
+						"description": "This security group will have rules for ssh connectivity",
+						"egress": [
+							{
+								"cidr_blocks": [
+									"0.0.0.0/0",
+								],
+								"description":      "allow all ip and ports outbound",
+								"from_port":        0,
+								"ipv6_cidr_blocks": [],
+								"prefix_list_ids":  [],
+								"protocol":         "-1",
+								"security_groups":  [],
+								"self":             false,
+								"to_port":          0,
+							},
+						],
+						"ingress": [
+							{
+								"cidr_blocks": [
+									"0.0.0.0/0",
+								],
+								"description":      "Allow port 22",
+								"from_port":        22,
+								"ipv6_cidr_blocks": [],
+								"prefix_list_ids":  [],
+								"protocol":         "tcp",
+								"security_groups":  [],
+								"self":             false,
+								"to_port":          22,
+							},
+						],
+						"name": "SSH Sg",
+					},
+					"provisioners": null,
+					"references": {
+						"description": [],
+						"egress":      [],
+						"ingress":     [],
+						"name":        [],
+					},
+				},
+				"web-SG": {
+					"config": {
+						"description": "This will enable web traffic",
+						"egress": [
+							{
+								"cidr_blocks": [
+									"0.0.0.0/0",
+								],
+								"description":      "allow all ip and ports outbound",
+								"from_port":        0,
+								"ipv6_cidr_blocks": [],
+								"prefix_list_ids":  [],
+								"protocol":         "-1",
+								"security_groups":  [],
+								"self":             false,
+								"to_port":          0,
+							},
+						],
+						"ingress": [
+							{
+								"cidr_blocks": [
+									"0.0.0.0/0",
+								],
+								"description":      "allow http",
+								"from_port":        80,
+								"ipv6_cidr_blocks": [],
+								"prefix_list_ids":  [],
+								"protocol":         "tcp",
+								"security_groups":  [],
+								"self":             false,
+								"to_port":          80,
+							},
+							{
+								"cidr_blocks": [
+									"0.0.0.0/0",
+								],
+								"description":      "allow HTTPS",
+								"from_port":        443,
+								"ipv6_cidr_blocks": [],
+								"prefix_list_ids":  [],
+								"protocol":         "tcp",
+								"security_groups":  [],
+								"self":             false,
+								"to_port":          443,
+							},
+							{
+								"cidr_blocks": [
+									"0.0.0.0/0",
+								],
+								"description":      "allow port 8080",
+								"from_port":        8080,
+								"ipv6_cidr_blocks": [],
+								"prefix_list_ids":  [],
+								"protocol":         "tcp",
+								"security_groups":  [],
+								"self":             false,
+								"to_port":          8080,
+							},
+						],
+						"name": "WEB sg",
+					},
+					"provisioners": null,
+					"references": {
+						"description": [],
+						"egress":      [],
+						"ingress":     [],
+						"name":        [],
+					},
+				},
+			},
+		},
+		"variables": {
+			"app_name": {
+				"default":     "web_app",
+				"description": "this is application name",
+			},
+			"environment_name": {
+				"default":     "dev",
+				"description": "Dev Environment",
+			},
+			"instance_type": {
+				"default":     "t2.micro",
+				"description": "this is instance type",
+			},
+			"region": {
+				"default":     "us-east-1",
+				"description": "this is the region",
+			},
+		},
+	},
+}
+
+module_paths = [
+	[],
+]
+
+module = func(path) {
+	if types.type_of(path) is not "list" {
+		error("expected list, got", types.type_of(path))
+	}
+
+	if length(path) < 1 {
+		return _modules.root
+	}
+
+	addr = []
+	for path as p {
+		append(addr, "module")
+		append(addr, p)
+	}
+
+	return _modules[strings.join(addr, ".")]
+}
+
+data = _modules.root.data
+modules = _modules.root.modules
+providers = _modules.root.providers
+resources = _modules.root.resources
+variables = _modules.root.variables
+outputs = _modules.root.outputs

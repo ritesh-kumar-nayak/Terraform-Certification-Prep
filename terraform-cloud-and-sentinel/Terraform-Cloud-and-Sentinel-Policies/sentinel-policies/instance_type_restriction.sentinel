@@ -1,0 +1,29 @@
+import "aws" as aws
+import "tfplan/v2" as tfplan
+
+# Define allowed instance types
+allowed_instance_types = ["t2.micro", "t3.micro", "t3.small"]
+
+# Ensure all instances use allowed instance types
+main = rule {
+  all ec2_instances as instance {
+    instance.instance_type not in allowed_instance_types
+  }
+}
+
+# Define the required tag key and value
+required_tag_key = "Environment"
+required_tag_value = "Production"
+
+# Check if instances in the Terraform plan have the required tag
+main = rule {
+  instances := tfplan.resources[type_is("aws_instance")]
+  
+  # Iterate over each instance in the plan
+  all instances as instance {
+    tags := instance.attrs["tags"]
+    
+    # Check if the required tag key exists and has the correct value
+    tags[required_tag_key] != null and tags[required_tag_key] == required_tag_value
+  }
+}

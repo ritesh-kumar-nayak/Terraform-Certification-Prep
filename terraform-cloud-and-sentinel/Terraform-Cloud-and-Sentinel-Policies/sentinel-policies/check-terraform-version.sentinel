@@ -1,0 +1,10 @@
+import "tfplan/v2" as tfplan
+import "strings"
+
+v=strings.split(tfplan.terraform_version, ".")
+version_major= int(v[0])
+version_minor= int(v[1])
+
+main = rule{
+    version_major >= 1
+}
