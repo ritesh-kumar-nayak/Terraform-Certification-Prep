@@ -11,7 +11,6 @@ terraform {
 provider "aws" {
   region  = var.aws_region # Region is variablized
   profile = "default"
-
 }
 
 provider "aws" {
