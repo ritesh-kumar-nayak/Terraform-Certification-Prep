@@ -1,0 +1,32 @@
+digraph {
+	compound = "true"
+	newrank = "true"
+	subgraph "root" {
+		"[root] aws_instance.ec2-from-datasource (expand)" [label = "aws_instance.ec2-from-datasource", shape = "box"]
+		"[root] aws_security_group.ssh-SG (expand)" [label = "aws_security_group.ssh-SG", shape = "box"]
+		"[root] aws_security_group.web-SG (expand)" [label = "aws_security_group.web-SG", shape = "box"]
+		"[root] data.aws_ami.amazon_linux_ami (expand)" [label = "data.aws_ami.amazon_linux_ami", shape = "box"]
+		"[root] provider[\"registry.terraform.io/hashicorp/aws\"]" [label = "provider[\"registry.terraform.io/hashicorp/aws\"]", shape = "diamond"]
+		"[root] var.app_name" [label = "var.app_name", shape = "note"]
+		"[root] var.environment_name" [label = "var.environment_name", shape = "note"]
+		"[root] var.instance_type" [label = "var.instance_type", shape = "note"]
+		"[root] var.region" [label = "var.region", shape = "note"]
+		"[root] aws_instance.ec2-from-datasource (expand)" -> "[root] aws_security_group.ssh-SG (expand)"
+		"[root] aws_instance.ec2-from-datasource (expand)" -> "[root] aws_security_group.web-SG (expand)"
+		"[root] aws_instance.ec2-from-datasource (expand)" -> "[root] data.aws_ami.amazon_linux_ami (expand)"
+		"[root] aws_instance.ec2-from-datasource (expand)" -> "[root] var.instance_type"
+		"[root] aws_security_group.ssh-SG (expand)" -> "[root] provider[\"registry.terraform.io/hashicorp/aws\"]"
+		"[root] aws_security_group.web-SG (expand)" -> "[root] provider[\"registry.terraform.io/hashicorp/aws\"]"
+		"[root] data.aws_ami.amazon_linux_ami (expand)" -> "[root] provider[\"registry.terraform.io/hashicorp/aws\"]"
+		"[root] output.ec2_public_ip (expand)" -> "[root] aws_instance.ec2-from-datasource (expand)"
+		"[root] output.instance_arn (expand)" -> "[root] aws_instance.ec2-from-datasource (expand)"
+		"[root] provider[\"registry.terraform.io/hashicorp/aws\"] (close)" -> "[root] aws_instance.ec2-from-datasource (expand)"
+		"[root] provider[\"registry.terraform.io/hashicorp/aws\"]" -> "[root] var.region"
+		"[root] root" -> "[root] output.ec2_public_ip (expand)"
+		"[root] root" -> "[root] output.instance_arn (expand)"
+		"[root] root" -> "[root] provider[\"registry.terraform.io/hashicorp/aws\"] (close)"
+		"[root] root" -> "[root] var.app_name"
+		"[root] root" -> "[root] var.environment_name"
+	}
+}
+
