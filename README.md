@@ -1,2 +1,2 @@
 # Terraform-Certification-Prep
-In this repository I'll publish all terraform conepts and practice sets that am going to learn over the period of my certification preparation
+In this repository, I'll be sharing all the Terraform concepts and practice sets I encounter throughout my certification preparation journey.
